@@ -24,9 +24,10 @@ public class Rocket extends Entity {
       this.active = false;
     }
   }
-  
+
   private void rocketVsObstacle(Obstacle o) {
-    if (this.getCollisionBox().intersects(o.getCollisionBox())) {
+    if (this.getCollisionBox().intersects(o.getCollisionBoxes()[0])
+      || this.getCollisionBox().intersects(o.getCollisionBoxes()[1])) {
       this.active = false;
     }
   }
