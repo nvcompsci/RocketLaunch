@@ -50,7 +50,7 @@ public class Brain {
   }
   
   public float sigmoid(float x) {
-    return 1.0 / (1 + exp(-x)); 
+    return 2.0 / (1 + exp(-x)) - 1; 
   }
 
   public float[][] multiplyMatrices(float[][] A, float[][] B) {

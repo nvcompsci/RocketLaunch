@@ -3,18 +3,23 @@ public class Rocket extends Entity {
   public PVector vel, force;
   public boolean active = true;
   public Brain brain;
+  public Obstacle nextObstacle;
+  public int nextObstacleIndex = 0;
 
   //constructor
   public Rocket(int x, int y) {
     super(#0000FF, 10, 30, x, y);
     float angle = random(PI * 1.3, PI * 1.7);
-    vel = new PVector(0,0);//PVector.fromAngle(angle);
-    force = new PVector(0,0);//PVector.fromAngle(angle);
+    vel = PVector.fromAngle(angle);
+    force = PVector.fromAngle(angle).mult(0.1);
     brain = new Brain(this);
+    nextObstacle = obstacles[0];
   }
 
   public void move() {
-    force = brain.pickDirection(obstacles[0]);
+    didPassObstacle();
+    
+    force = brain.pickDirection(nextObstacle);
     
     this.pos.add(vel);
     this.vel.add(force);
@@ -26,6 +31,13 @@ public class Rocket extends Entity {
       || this.pos.y > height)
     {
       this.active = false;
+    }
+  }
+  
+  private void didPassObstacle() {
+    if (this.getCollisionBox().intersects(nextObstacle.getCollisionBox())) {
+      nextObstacleIndex++;
+      nextObstacle = obstacles[nextObstacleIndex];
     }
   }
 
