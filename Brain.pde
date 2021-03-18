@@ -1,13 +1,15 @@
 public class Brain {
   float[][] input, hidden, output, w_ih, b_h, w_ho, b_o;
   int inputNodes = 2, hiddenNodes = 3, outputNodes = 2;
+  Rocket r;
   
-  public Brain() {
+  public Brain(Rocket r) {
+    this.r = r;
     w_ih = new float[inputNodes][hiddenNodes];
     w_ih = randomize(w_ih);
     b_h = new float[1][hiddenNodes];
     b_h = randomize(b_h);
-    w_ho = new float[outputNodes][hiddenNodes];
+    w_ho = new float[hiddenNodes][outputNodes];
     w_ho = randomize(w_ho);
     b_o = new float[1][outputNodes];
     b_o = randomize(b_o);
@@ -23,14 +25,18 @@ public class Brain {
     return randMat;
   }
   
-  public float[] pickDirection(Obstacle o) {
+  public PVector pickDirection(Obstacle o) {
+    PVector diff = PVector.sub(r.pos,o.pos);
+    input = new float[1][inputNodes];
+    input[0][0] = diff.x;
+    input[0][1] = diff.y;
     hidden = multiplyMatrices(input, w_ih);
-    hidden = addMatrices(b_h, hidden);
+    hidden = addMatrices(b_h, hidden); //<>//
     hidden = applyActivation(hidden);
     output = multiplyMatrices(hidden, w_ho);
     output = addMatrices(b_o, output);
     output = applyActivation(output);
-    return output[0];
+    return new PVector(output[0][0], output[0][1]);
   }
   
   public float[][] applyActivation(float[][] mat) {
@@ -48,8 +54,10 @@ public class Brain {
   }
 
   public float[][] multiplyMatrices(float[][] A, float[][] B) {
-    if (A[0].length != B.length)
+    if (A[0].length != B.length) {
+      //throw new Exception("Matrix wrong shape.");
       return null;
+    }
     float[][] C = new float[A.length][B[0].length];
     for (int i = 0; i < A.length; i++) {      
       for (int j = 0; j < B[0].length; j++) {
