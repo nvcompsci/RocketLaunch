@@ -19,7 +19,7 @@ public class Rocket extends Entity {
   public void move() {
     didPassObstacle();
     
-    force = brain.pickDirection(nextObstacle);
+    force = brain.pickDirection(nextObstacle).mult(0.2);
     
     this.pos.add(vel);
     this.vel.add(force);

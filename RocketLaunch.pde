@@ -23,6 +23,28 @@ public void draw() {
   }
 }
 
+public boolean allRocketsDestroyed() {
+  return true;
+}
+
+public int bestRocket() {
+  //create variables with default, wrong answers
+  int index = -1;
+  int bestHeight = Integer.MAX_VALUE;
+  //interate through all rockets
+  for (int i = 0; i < rockets.size(); i++ ) {
+    System.out.println( rockets.get(i) );
+    //check for new best rocket (smaller y)
+    //rockets.get(i) .pos.y bestHeight <
+    if (rockets.get(i).pos.y < bestHeight ) {
+      //change answer of best rocket
+      index =  i;
+      bestHeight = (int) rockets.get(i).pos.y;
+    }
+  }
+  return index;
+}
+
 public void mouseReleased() {
     //1.1 spawn 20 rockets when mouse is clicked
     for (int i = 0; i < 20; i++) {
