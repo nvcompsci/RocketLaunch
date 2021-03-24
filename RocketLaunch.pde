@@ -21,13 +21,24 @@ public void draw() {
     rocket.draw();
   }
   }
+  if (allRocketsDestroyed()) {
+    Rocket best = bestRocket();
+    
+  }
 }
 
 public boolean allRocketsDestroyed() {
+  //boolean allDestroyed = false;
+  for (int i = 0; i < rockets.size(); i++) {
+    //is this rocket destroyed?
+    if (rockets.get(i).active) {
+      return false;
+    }    
+  }
   return true;
 }
 
-public int bestRocket() {
+public Rocket bestRocket() {
   //create variables with default, wrong answers
   int index = -1;
   int bestHeight = Integer.MAX_VALUE;
@@ -42,7 +53,7 @@ public int bestRocket() {
       bestHeight = (int) rockets.get(i).pos.y;
     }
   }
-  return index;
+  return rockets.get(index);
 }
 
 public void mouseReleased() {
