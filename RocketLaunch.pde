@@ -16,16 +16,56 @@ public void draw() {
   for (Rocket rocket : rockets) {
   if (rocket != null && rocket.active) {
     rocket.move();
+    rocket.rocketVsBorder();
     for (Obstacle o : obstacles)
       rocket.rocketVsObstacle(o);
     rocket.draw();
   }
   }
+  if (rockets.size() > 0 && allRocketsDestroyed()) {
+    Rocket best = bestRocket();
+    spawnNextGenRockets(best);
+  }
+}
+
+public void spawnNextGenRockets(Rocket best) {
+  for (int i = 0; i < rockets.size(); i++) {
+    rockets.set(i, new Rocket(width/2,height-10, best.brain));
+  }
+}
+
+public boolean allRocketsDestroyed() {
+  //boolean allDestroyed = false;
+  for (int i = 0; i < rockets.size(); i++) {
+    //is this rocket destroyed?
+    if (rockets.get(i).active) {
+      return false;
+    }    
+  }
+  return true;
+}
+
+public Rocket bestRocket() {
+  //create variables with default, wrong answers
+  int index = -1;
+  int bestHeight = Integer.MAX_VALUE;
+  //interate through all rockets
+  for (int i = 0; i < rockets.size(); i++ ) {
+    System.out.println( rockets.get(i) );
+    //check for new best rocket (smaller y)
+    //rockets.get(i) .pos.y bestHeight <
+    if (rockets.get(i).pos.y < bestHeight ) {
+      //change answer of best rocket
+      index =  i;
+      bestHeight = (int) rockets.get(i).pos.y;
+    }
+  }
+  return rockets.get(index);
 }
 
 public void mouseReleased() {
     //1.1 spawn 20 rockets when mouse is clicked
-    for (int i = 0; i < 20; i++) {
+    for (int i = 0; i < 50; i++) {
      Rocket new_rocket = new Rocket(mouseX, mouseY);
      rockets.add(new_rocket);
     }
