@@ -16,14 +16,21 @@ public void draw() {
   for (Rocket rocket : rockets) {
   if (rocket != null && rocket.active) {
     rocket.move();
+    rocket.rocketVsBorder();
     for (Obstacle o : obstacles)
       rocket.rocketVsObstacle(o);
     rocket.draw();
   }
   }
-  if (allRocketsDestroyed()) {
+  if (rockets.size() > 0 && allRocketsDestroyed()) {
     Rocket best = bestRocket();
-    
+    spawnNextGenRockets(best);
+  }
+}
+
+public void spawnNextGenRockets(Rocket best) {
+  for (int i = 0; i < rockets.size(); i++) {
+    rockets.set(i, new Rocket(width/2,height-10, best.brain));
   }
 }
 
@@ -58,7 +65,7 @@ public Rocket bestRocket() {
 
 public void mouseReleased() {
     //1.1 spawn 20 rockets when mouse is clicked
-    for (int i = 0; i < 20; i++) {
+    for (int i = 0; i < 50; i++) {
      Rocket new_rocket = new Rocket(mouseX, mouseY);
      rockets.add(new_rocket);
     }

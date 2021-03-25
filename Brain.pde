@@ -25,6 +25,7 @@ public class Brain { //<>//
     w_ho = replicate(b.w_ho);
     b_o = new float[1][outputNodes];
     b_o = replicate(b.b_o);
+    mutate();
   }
   
   private float[][] replicate(float[][] mat) {
@@ -50,7 +51,7 @@ public class Brain { //<>//
       for (int j = 0; j < mat[0].length; j++) {
         //pick random number         
         //if random is certain level
-        if (Math.random() < 0.05) {
+        if (Math.random() < 0.2) {
           //pick another random change amount
           //change the value in the matrix
           mat[i][j] *= Math.random() * 4 - 2;

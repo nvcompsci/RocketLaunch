@@ -15,11 +15,20 @@ public class Rocket extends Entity {
     brain = new Brain(this);
     nextObstacle = obstacles[0];
   }
+  
+  public Rocket(int x, int y, Brain b) {
+    super(#0000FF, 10, 30, x, y);
+    float angle = random(PI * 1.3, PI * 1.7);
+    vel = PVector.fromAngle(angle);
+    force = PVector.fromAngle(angle).mult(0.1);
+    brain = new Brain(this, b);
+    nextObstacle = obstacles[0];
+  }
 
   public void move() {
     didPassObstacle();
     
-    force = brain.pickDirection(nextObstacle).mult(0.2);
+    force = brain.pickDirection(nextObstacle);
     
     this.pos.add(vel);
     this.vel.add(force);
