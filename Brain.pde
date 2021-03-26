@@ -1,6 +1,6 @@
 public class Brain { //<>//
   float[][] input, hidden, output, w_ih, b_h, w_ho, b_o;
-  int inputNodes = 2, hiddenNodes = 3, outputNodes = 2;
+  int inputNodes = 2, hiddenNodes = 5, outputNodes = 2;
   Rocket r;
 
   public Brain(Rocket r) {
@@ -51,10 +51,10 @@ public class Brain { //<>//
       for (int j = 0; j < mat[0].length; j++) {
         //pick random number         
         //if random is certain level
-        if (Math.random() < 0.2) {
+        if (Math.random() < 0.05) {
           //pick another random change amount
           //change the value in the matrix
-          mat[i][j] *= Math.random() * 4 - 2;
+          mat[i][j] *= Math.random() * 2-1;
         }
       }
     }

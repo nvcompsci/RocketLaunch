@@ -4,6 +4,7 @@ Obstacle[] obstacles = new Obstacle[5];
 public void setup() {
   size(300,900);
   spawnObstacles();
+  frameRate(240);
 }
 
 public void draw() {
@@ -30,7 +31,7 @@ public void draw() {
 
 public void spawnNextGenRockets(Rocket best) {
   for (int i = 0; i < rockets.size(); i++) {
-    rockets.set(i, new Rocket(width/2,height-10, best.brain));
+    rockets.set(i, new Rocket(width/2,height-40, best.brain));
   }
 }
 
@@ -48,13 +49,15 @@ public boolean allRocketsDestroyed() {
 public Rocket bestRocket() {
   //create variables with default, wrong answers
   int index = -1;
-  int bestHeight = Integer.MAX_VALUE;
+  int bestHeight = Integer.MIN_VALUE;
+  float bestDistance = Float.MAX_VALUE;
   //interate through all rockets
   for (int i = 0; i < rockets.size(); i++ ) {
     System.out.println( rockets.get(i) );
     //check for new best rocket (smaller y)
     //rockets.get(i) .pos.y bestHeight <
-    if (rockets.get(i).pos.y < bestHeight ) {
+    int thisObstacleIndex = rockets.get(i).nextObstacleIndex;
+    if (thisObstacleIndex > bestHeight && rockets.get(i).closest < bestDistance) {
       //change answer of best rocket
       index =  i;
       bestHeight = (int) rockets.get(i).pos.y;
@@ -65,7 +68,7 @@ public Rocket bestRocket() {
 
 public void mouseReleased() {
     //1.1 spawn 20 rockets when mouse is clicked
-    for (int i = 0; i < 50; i++) {
+    for (int i = 0; i < 1000; i++) {
      Rocket new_rocket = new Rocket(mouseX, mouseY);
      rockets.add(new_rocket);
     }
@@ -73,7 +76,7 @@ public void mouseReleased() {
 
 private void spawnObstacles() {
   for (int i = 0; i < obstacles.length; i++) {
-    int x = (int) map(random(1),0,1,width * 0.1, width * 0.9);
+    int x = (int) map(random(1),0,1,width * 0.15, width * 0.85);
     //2.1 obstacles are evenly spaced vertically
     int y = (int) map(i,0,obstacles.length,700,0);
     obstacles[i] = new Obstacle(x, y);
